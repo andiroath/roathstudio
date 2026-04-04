@@ -276,6 +276,7 @@ nav.scrolled{background:rgba(12,13,15,.9);backdrop-filter:blur(20px);border-colo
 }
 .stat-label{font-size:10px;font-weight:600;letter-spacing:1px;color:var(--muted);text-transform:uppercase;}
 .intro-right{
+  width: 55%;
   position:relative;border-radius:18px;overflow:hidden;
   aspect-ratio:4/5;background:var(--dark3);border:1px solid var(--border);
 }
@@ -629,7 +630,7 @@ footer{
   <div class="hero-pill">
     <span class="pill-dot"></span>
     <span class="pill-text">Logo profesional</span>
-    <span class="pill-price">$50.000 ARS</span>
+    <span class="pill-price">$50.000</span>
   </div>
   <button class="sl-arrow sl-prev" onclick="sliderMove(-1)">&#8592;</button>
   <button class="sl-arrow sl-next" onclick="sliderMove(1)">&#8594;</button>
@@ -655,7 +656,7 @@ footer{
       </p>
       <div class="intro-stats reveal d3">
         <div class="stat-box"><div class="stat-num">+100</div><div class="stat-label">Logos</div></div>
-        <div class="stat-box"><div class="stat-num">24h</div><div class="stat-label">Entrega</div></div>
+        <div class="stat-box"><div class="stat-num">24 hs</div><div class="stat-label">Entrega</div></div>
         <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">Satisfacción</div></div>
       </div>
     </div>
@@ -663,7 +664,7 @@ footer{
       <img src="https://images.pexels.com/photos/5904067/pexels-photo-5904067.jpeg?_gl=1*vc26fu*_ga*NTI5OTI3MTI0LjE3NzI1NjQ0MzY.*_ga_8JE65Q40S6*czE3NzUyNjAzNDckbzEzJGcxJHQxNzc1MjYwNjQ4JGo0MiRsMCRoMA.." alt="Diseño gráfico">
       <div class="intro-badge">
         <span class="badge-label">Logo profesional desde</span>
-        <span class="badge-val">$50.000 ARS</span>
+        <span class="badge-val">$50.000</span>
       </div>
     </div>
   </div>
@@ -687,7 +688,7 @@ footer{
         <div class="s-icon">◈</div>
         <h3 class="s-name">Diseño de Logo</h3>
         <p class="s-desc">Realizamos el diseño de tu nueva identidad visual. Lo hacemos en 24 horas y te entregamos el resultado en formato PNG y PDF</p>
-        <div class="s-price"><span class="s-price-val">$50.000 ARS</span><span class="s-price-time">⏱ 24 horas</span></div>
+        <div class="s-price"><span class="s-price-val">$50.000</span><span class="s-price-time">⏱ 24 horas</span></div>
       </div>
       <div class="s-card reveal d2">
         <span class="s-n">02</span>
@@ -771,7 +772,7 @@ footer{
       
       
 
-      
+      <a href="https://wa.me/5491135071111" target="_blank" class="c-ch"><span class="c-icon">💬</span>WhatsApp — Respuesta inmediata</a>
     </form>
   </div>
 </section>
@@ -864,7 +865,7 @@ function handleForm(e){
   const btn=e.target.querySelector('.f-submit');
   btn.textContent='✓ ¡Mensaje enviado! Te contactamos pronto';
   btn.style.background='#1e6040';
-  setTimeout(()=>{btn.textContent='Quiero mi Logo — $50.000 ARS';btn.style.background='';e.target.reset();},4000);
+  setTimeout(()=>{btn.textContent='Quiero mi Logo — $50.000';btn.style.background='';e.target.reset();},4000);
 }
 </script>
 </body>

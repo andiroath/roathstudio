@@ -128,8 +128,8 @@ button.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 
   <section id="viewDa" hidden>
     <form class="auth" id="auth" hidden>
-      <h2>Entrá para ver tus guiones</h2>
-      <p>Tus guiones se guardan en tu cuenta y solo los ves vos.</p>
+      <h2 id="ah2">Entrá para ver tus guiones</h2>
+      <p id="ap">Tus guiones se guardan en tu cuenta y solo los ves vos.</p>
       <input type="email" id="aemail" placeholder="Email" autocomplete="email" aria-label="Email" required>
       <input type="password" id="apass" placeholder="Contraseña (mínimo 6 caracteres)" autocomplete="current-password" aria-label="Contraseña" required minlength="6">
       <button class="primary" type="submit" id="login">Entrar</button>
@@ -147,8 +147,8 @@ button.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 /* 1) Pegá acá los datos de tu proyecto (Supabase > Project Settings > API) */
-var SUPABASE_URL="https://ezebfcidkxtqfmpxyutk.supabase.co/rest/v1/";
-var SUPABASE_KEY="sb_publishable__qDdArjSfGDtidHWrLsVng_tVOcUbcb";
+var SUPABASE_URL="PEGA_TU_SUPABASE_URL";
+var SUPABASE_KEY="PEGA_TU_ANON_KEY";
 
 var KEY="guion-tiktok-v2";
 var STATUS={idea:"Idea",escrito:"Escrito",grabado:"Grabado",publicado:"Publicado"};
@@ -326,10 +326,14 @@ $("cloud").addEventListener("click",function(){
 
 function setUser(u){
   user=u;
-  $("who").hidden=!u;$("email").textContent=u?u.email:"";
+  var an=!!(u&&u.is_anonymous);$("who").hidden=!u||an;$("email").textContent=u&&!an?u.email:"";
   if(!$("viewDa").hidden)refreshDash();
 }
-if(sb)sb.auth.onAuthStateChange(function(ev,s){setUser(s?s.user:null)});
+function signAnon(){sb.auth.signInAnonymously().then(function(r){if(r.error){setUser(null);authMsg("No se pudo crear tu espacio: "+r.error.message+". Activá Anonymous sign-ins en Supabase.",true)}})}
+if(sb){
+  sb.auth.onAuthStateChange(function(ev,s){setUser(s?s.user:null);if(ev==="SIGNED_OUT")signAnon()});
+  sb.auth.getSession().then(function(r){if(!r.data.session)signAnon()});
+}
 
 function authMsg(m,bad){var e=$("authmsg");e.textContent=m;e.style.color=bad?"var(--over)":"var(--ok)"}
 $("auth").addEventListener("submit",function(e){
@@ -343,16 +347,20 @@ $("signup").addEventListener("click",function(){
   if(!sb){authMsg("Falta configurar Supabase en el script.",true);return}
   var em=$("aemail").value.trim(),pw=$("apass").value;
   if(!em||pw.length<6){authMsg("Completá el email y una contraseña de al menos 6 caracteres.",true);return}
-  sb.auth.signUp({email:em,password:pw}).then(function(r){
+  var an=user&&user.is_anonymous;
+  var req=an?sb.auth.updateUser({email:em,password:pw}):sb.auth.signUp({email:em,password:pw});
+  req.then(function(r){
     if(r.error)authMsg("No se pudo crear la cuenta: "+r.error.message,true);
-    else if(!r.data.session)authMsg("Cuenta creada. Confirmá tu email y después tocá Entrar.");
+    else if(an||!r.data.session)authMsg("Listo. Si te llega un email, confirmalo para terminar.");
   });
 });
 $("logout").addEventListener("click",function(){sb.auth.signOut()});
 
 function refreshDash(){
-  var logged=!!user;
-  $("auth").hidden=logged;$("dash").hidden=!logged;
+  var logged=!!user,an=logged&&user.is_anonymous;
+  $("auth").hidden=logged&&!an;$("dash").hidden=!logged;
+  $("ah2").textContent=an?"Guardá tu cuenta para no perder tus guiones":"Entrá para ver tus guiones";
+  $("ap").textContent=an?"Ahora tus guiones viven solo en este navegador. Con un email los recuperás desde cualquier dispositivo.":"Tus guiones se guardan en tu cuenta y solo los ves vos.";
   if(!logged){
     if(!sb)authMsg("Falta configurar Supabase: completá la URL y la anon key en el script.",true);
     return;

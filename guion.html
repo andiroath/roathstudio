@@ -36,6 +36,7 @@ input[type=text],input[type=email],input[type=password],input[type=number],texta
 input[type=number]{width:70px;text-align:center}
 select{width:auto}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input[readonly]{opacity:.65;cursor:not-allowed}
 label.small{font-size:14px;color:var(--muted)}
 .timeline{display:flex;gap:3px;height:34px}
 .seg{border-radius:6px;background:var(--track);position:relative;overflow:hidden;min-width:0}
@@ -197,7 +198,7 @@ var SUPABASE_KEY="sb_publishable__qDdArjSfGDtidHWrLsVng_tVOcUbcb";
 
 var KEY="guion-tiktok-v2";
 var STATUS={idea:"Idea",escrito:"Escrito",grabado:"Grabado",publicado:"Publicado"};
-var DEFAULTS=[["Hook",0,3],["Desarrollo",3,10],["Pregunta",10,13]];
+var DEFAULTS=[["Hook",0,3],["Desarrollo",3,10],["CTA",10,15]];
 function defaults(){return DEFAULTS.map(function(d){return{name:d[0],from:d[1],to:d[2],text:""}})}
 var blocks=defaults(),clearArmed=false,curId=null,user=null,docs=[],filter="all";
 var sb=null;
@@ -223,15 +224,16 @@ function render(){
       '<div class="stat"><span class="cnt"></span><span class="msg"></span></div><div class="bar"><i></i></div>';
     var nm=d.querySelector(".nm"),f=d.querySelector(".f"),t=d.querySelector(".t"),ta=d.querySelector("textarea");
     nm.value=b.name;f.value=b.from;t.value=b.to;ta.value=b.text;
+    var hook=i===0,cta=i===blocks.length-1;
+    nm.readOnly=hook||cta;f.readOnly=hook||cta;t.readOnly=cta;
+    if(hook||cta){nm.title="Bloque fijo";d.querySelector(".x").remove()}
     ta.setAttribute("aria-label","Texto del bloque "+(i+1));
     nm.addEventListener("input",function(){b.name=nm.value;update();persist()});
     f.addEventListener("input",function(){b.from=num(f.value);update();persist()});
     t.addEventListener("input",function(){b.to=num(t.value);update();persist()});
     ta.addEventListener("input",function(){b.text=ta.value;update();persist()});
-    d.querySelector(".x").addEventListener("click",function(){
-      if(blocks.length<2){note("Tiene que quedar al menos un bloque.");return}
-      blocks.splice(i,1);render();update();persist();
-    });
+    var xb=d.querySelector(".x");
+    if(xb)xb.addEventListener("click",function(){blocks.splice(i,1);render();update();persist()});
     list.appendChild(d);
     var g=document.createElement("div");g.className="seg";g.innerHTML="<i></i><span></span>";
     tl.appendChild(g);
@@ -242,10 +244,12 @@ function state(est,dur){return dur<=0||est>dur+0.05?"over":(est>dur*0.9?"warn":"
 
 function update(){
   var p=pace(),totW=0,totE=0,totD=0,anyOver=false;
+  fixCta(blocks);
   blocks.forEach(function(b,i){
     var dur=b.to-b.from,w=words(b.text),est=w/p,st=state(est,dur),max=Math.max(0,Math.floor(dur*p));
     totW+=w;totE+=est;if(dur>0)totD+=dur;if(st==="over")anyOver=true;
     var n=list.children[i],g=tl.children[i];
+    if(i===blocks.length-1){n.querySelector(".f").value=b.from;n.querySelector(".t").value=b.to}
     n.className="block "+st;
     n.querySelector(".cnt").textContent=w+" palabras · ~"+fmt(est)+" s de "+Math.max(0,dur)+" s";
     var m=n.querySelector(".msg");
@@ -281,9 +285,17 @@ function fname(){
   return t+".txt";
 }
 function cleanBlocks(a){return a.map(function(b){return{name:String(b.name||""),from:num(b.from),to:num(b.to),text:String(b.text||"")}})}
+function fixCta(a){if(a.length<2)return;var c=a[a.length-1],q=a[a.length-2];c.from=q.to;c.to=c.from+5}
+function normalize(a){
+  a=cleanBlocks(a);
+  if(!a.length||a[0].name.trim().toLowerCase()!=="hook")a.unshift({name:"Hook",from:0,to:3,text:""});
+  if(a.length<2||a[a.length-1].name.trim().toLowerCase()!=="cta")a.push({name:"CTA",from:0,to:5,text:""});
+  a[0].name="Hook";a[0].from=0;a[a.length-1].name="CTA";
+  fixCta(a);return a;
+}
 function loadDoc(o){
   curId=o.id||null;
-  blocks=o.blocks&&o.blocks.length?cleanBlocks(o.blocks):defaults();
+  blocks=o.blocks&&o.blocks.length?normalize(o.blocks):defaults();
   $("title").value=o.title||"";
   $("pace").value=o.pace||2.5;
   $("status").value=STATUS[o.status]?o.status:"idea";
@@ -292,10 +304,10 @@ function loadDoc(o){
 
 /* ---------- editor ---------- */
 $("add").addEventListener("click",function(){
-  var last=blocks[blocks.length-1],s=last?last.to:0;
-  blocks.push({name:"Nuevo bloque",from:s,to:s+5,text:""});
+  var ci=blocks.length-1,prev=blocks[ci-1],s=prev?prev.to:0;
+  blocks.splice(ci,0,{name:"Nuevo bloque",from:s,to:s+5,text:""});
   render();update();persist();
-  var inp=list.lastChild.querySelector(".nm");inp.focus();inp.select();
+  var inp=list.children[ci].querySelector(".nm");inp.focus();inp.select();
 });
 $("save").addEventListener("click",function(){
   try{
@@ -332,7 +344,7 @@ function persist(){
   try{
     var r=localStorage.getItem(KEY),o;
     if(r){o=JSON.parse(r);curId=o.id||null;
-      if(o.blocks&&o.blocks.length)blocks=cleanBlocks(o.blocks);
+      if(o.blocks&&o.blocks.length)blocks=normalize(o.blocks);
       if(o.title)$("title").value=o.title;
       if(o.pace)$("pace").value=o.pace;
       if(STATUS[o.status])$("status").value=o.status;

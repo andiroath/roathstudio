@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guion TikTok</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#EDEFF3;--surface:#FFFFFF;--ink:#171A21;--muted:#5C6473;--line:#D5D9E2;
+  --accent:#2A4BFF;--ok:#14804F;--warn:#A86A00;--over:#C8283A;--track:#E3E6EC;
+  --head:"Bricolage Grotesque","DM Sans",system-ui,sans-serif;--body:"DM Sans",system-ui,sans-serif;
+  color-scheme:light;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#13151B;--surface:#1C1F27;--ink:#ECEEF3;--muted:#9AA2B1;--line:#2D323D;--accent:#7C93FF;--ok:#4FCB8E;--warn:#E9B04A;--over:#FF6B7A;--track:#2A2E38;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#13151B;--surface:#1C1F27;--ink:#ECEEF3;--muted:#9AA2B1;--line:#2D323D;--accent:#7C93FF;--ok:#4FCB8E;--warn:#E9B04A;--over:#FF6B7A;--track:#2A2E38;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--body)}
+main{max-width:980px;margin:0 auto;padding:20px 16px 48px}
+.ed{max-width:760px;margin:0 auto}
+h1{font:700 clamp(26px,5vw,36px)/1.1 var(--head);margin:0;letter-spacing:-.01em}
+.hd{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.who{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);min-width:0}
+.who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:18px}
+button.tab{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;color:var(--muted);padding:10px 14px}
+button.tab.on{color:var(--ink);border-bottom-color:var(--accent)}
+.top{display:grid;gap:12px;margin-bottom:18px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+input[type=text],input[type=email],input[type=password],input[type=number],textarea,select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+input[type=number]{width:70px;text-align:center}
+select{width:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+label.small{font-size:14px;color:var(--muted)}
+.timeline{display:flex;gap:3px;height:34px}
+.seg{border-radius:6px;background:var(--track);position:relative;overflow:hidden;min-width:0}
+.seg i{position:absolute;inset:0 auto 0 0;width:0;background:var(--ok);opacity:.85;transition:width .15s}
+.seg.warn i{background:var(--warn)}.seg.over i{background:var(--over)}
+.seg span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;overflow:hidden;white-space:nowrap;text-shadow:0 0 3px var(--surface),0 0 3px var(--surface)}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;margin-bottom:12px;border-left:5px solid var(--ok)}
+.block.warn{border-left-color:var(--warn)}.block.over{border-left-color:var(--over)}
+.bh{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.bh .nm{flex:1 1 160px;width:auto;font:700 18px var(--head)}
+.tm{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:14px}
+.x{padding:6px 11px;font-size:18px;line-height:1;color:var(--muted)}
+textarea{min-height:92px;resize:vertical;line-height:1.5;padding:10px 12px}
+.stat{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.msg{font-weight:700}
+.ok .msg{color:var(--ok)}.warn .msg{color:var(--warn)}.over .msg{color:var(--over)}
+.bar{height:6px;border-radius:3px;background:var(--track);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .15s}
+.warn .bar i{background:var(--warn)}.over .bar i{background:var(--over)}
+button{font:700 15px var(--body);border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 16px;cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button.primary{color:#10131A}}
+:root[data-theme="dark"] button.primary{color:#10131A}
+button:disabled{opacity:.6;cursor:default}
+button:active{transform:translateY(1px)}
+.add{width:100%;border-style:dashed;margin-bottom:18px;color:var(--accent)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+#note{font-size:14px;color:var(--muted);min-height:20px;margin-top:10px}
+/* login */
+.auth{max-width:380px;margin:24px auto;display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.auth h2,.empty h2{font:700 20px var(--head);margin:0}
+.auth p,.empty p{margin:0;color:var(--muted);font-size:14px}
+#authmsg{font-size:14px;min-height:20px}
+/* dashboard */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px}
+button.chip{padding:6px 12px;font-size:14px;border-radius:999px;color:var(--muted)}
+button.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;border-left:5px solid var(--muted);min-width:0}
+.card.idea{border-left-color:var(--muted)}.card.escrito{border-left-color:var(--accent)}.card.grabado{border-left-color:var(--warn)}.card.publicado{border-left-color:var(--ok)}
+.card h3{font:700 18px/1.2 var(--head);margin:0;overflow-wrap:anywhere}
+.card .pv{margin:0;color:var(--muted);font-size:14px;flex:1;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .mt{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.card .ct{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.card .ct button{padding:7px 12px;font-size:14px}
+.card select{padding:6px 8px;font-size:14px}
+.empty{text-align:center;display:grid;gap:8px;padding:36px 12px;justify-items:center}
+@media (max-width:480px){main{padding:14px 12px 40px}.grid{grid-template-columns:1fr}.who span{max-width:130px}}
+</style>
+</head>
+<body>
+<main>
+  <div class="hd">
+    <h1>Guion TikTok</h1>
+    <div class="who" id="who" hidden><span id="email"></span><button id="logout">Salir</button></div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" id="tabEd" role="tab">Editor</button>
+    <button class="tab" id="tabDa" role="tab">Mis guiones</button>
+  </div>
+
+  <section id="viewEd" class="ed">
+    <div class="top">
+      <input type="text" id="title" placeholder="Nombre del video" aria-label="Nombre del video" maxlength="80">
+      <div class="row">
+        <label class="small" for="pace">Ritmo al hablar (palabras por segundo)</label>
+        <input type="number" id="pace" min="1" max="5" step="0.1" value="2.5">
+      </div>
+      <div class="row">
+        <label class="small" for="status">Estado</label>
+        <select id="status">
+          <option value="idea">Idea</option><option value="escrito">Escrito</option>
+          <option value="grabado">Grabado</option><option value="publicado">Publicado</option>
+        </select>
+      </div>
+      <div class="timeline" id="timeline" aria-hidden="true"></div>
+      <div id="total"></div>
+    </div>
+    <div id="blocks"></div>
+    <button class="add" id="add">+ Agregar bloque</button>
+    <div class="actions">
+      <button class="primary" id="cloud">Guardar en la nube</button>
+      <button id="save">Guardar .txt</button>
+      <button id="copy">Copiar guion</button>
+      <button id="fresh">Nuevo guion</button>
+      <button id="clear">Vaciar textos</button>
+    </div>
+    <div id="note" role="status"></div>
+  </section>
+
+  <section id="viewDa" hidden>
+    <form class="auth" id="auth" hidden>
+      <h2>Entrá para ver tus guiones</h2>
+      <p>Tus guiones se guardan en tu cuenta y solo los ves vos.</p>
+      <input type="email" id="aemail" placeholder="Email" autocomplete="email" aria-label="Email" required>
+      <input type="password" id="apass" placeholder="Contraseña (mínimo 6 caracteres)" autocomplete="current-password" aria-label="Contraseña" required minlength="6">
+      <button class="primary" type="submit" id="login">Entrar</button>
+      <button type="button" id="signup">Crear cuenta</button>
+      <div id="authmsg" role="status"></div>
+    </form>
+    <div id="dash" hidden>
+      <input type="text" id="q" placeholder="Buscar por nombre o texto" aria-label="Buscar guiones">
+      <div class="filters" id="filters"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* 1) Pegá acá los datos de tu proyecto (Supabase > Project Settings > API) */
+var SUPABASE_URL="https://ezebfcidkxtqfmpxyutk.supabase.co/rest/v1/";
+var SUPABASE_KEY="sb_publishable__qDdArjSfGDtidHWrLsVng_tVOcUbcb";
+
+var KEY="guion-tiktok-v2";
+var STATUS={idea:"Idea",escrito:"Escrito",grabado:"Grabado",publicado:"Publicado"};
+var DEFAULTS=[["Hook",0,3],["Desarrollo",3,10],["Pregunta",10,13]];
+function defaults(){return DEFAULTS.map(function(d){return{name:d[0],from:d[1],to:d[2],text:""}})}
+var blocks=defaults(),clearArmed=false,curId=null,user=null,docs=[],filter="all";
+var sb=null;
+try{if(/^https?:/.test(SUPABASE_URL)&&window.supabase)sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)}catch(e){}
+var $=function(id){return document.getElementById(id)};
+var list=$("blocks"),tl=$("timeline");
+
+function pad(n){return (n<10?"0":"")+n}
+function range(b){return pad(b.from)+"´´ a "+pad(b.to)+"´´"}
+function words(t){var m=(t||"").trim();return m?m.split(/\s+/).length:0}
+function pace(){var p=parseFloat($("pace").value);return p>0?p:2.5}
+function fmt(n){return (Math.round(n*10)/10).toString().replace(".",",")}
+function num(v){var n=parseInt(v,10);return n>=0?n:0}
+
+function render(){
+  list.innerHTML="";tl.innerHTML="";
+  blocks.forEach(function(b,i){
+    var d=document.createElement("section");d.className="block ok";
+    d.innerHTML='<div class="bh"><input type="text" class="nm" maxlength="40" aria-label="Nombre del bloque">'+
+      '<div class="tm">de <input type="number" class="f" min="0" step="1" aria-label="Segundo de inicio"> a <input type="number" class="t" min="0" step="1" aria-label="Segundo de fin"> s</div>'+
+      '<button class="x" aria-label="Eliminar bloque" title="Eliminar bloque">×</button></div>'+
+      '<textarea placeholder="Escribí acá lo que decís en este bloque"></textarea>'+
+      '<div class="stat"><span class="cnt"></span><span class="msg"></span></div><div class="bar"><i></i></div>';
+    var nm=d.querySelector(".nm"),f=d.querySelector(".f"),t=d.querySelector(".t"),ta=d.querySelector("textarea");
+    nm.value=b.name;f.value=b.from;t.value=b.to;ta.value=b.text;
+    ta.setAttribute("aria-label","Texto del bloque "+(i+1));
+    nm.addEventListener("input",function(){b.name=nm.value;update();persist()});
+    f.addEventListener("input",function(){b.from=num(f.value);update();persist()});
+    t.addEventListener("input",function(){b.to=num(t.value);update();persist()});
+    ta.addEventListener("input",function(){b.text=ta.value;update();persist()});
+    d.querySelector(".x").addEventListener("click",function(){
+      if(blocks.length<2){note("Tiene que quedar al menos un bloque.");return}
+      blocks.splice(i,1);render();update();persist();
+    });
+    list.appendChild(d);
+    var g=document.createElement("div");g.className="seg";g.innerHTML="<i></i><span></span>";
+    tl.appendChild(g);
+  });
+}
+
+function state(est,dur){return dur<=0||est>dur+0.05?"over":(est>dur*0.9?"warn":"ok")}
+
+function update(){
+  var p=pace(),totW=0,totE=0,totD=0,anyOver=false;
+  blocks.forEach(function(b,i){
+    var dur=b.to-b.from,w=words(b.text),est=w/p,st=state(est,dur),max=Math.max(0,Math.floor(dur*p));
+    totW+=w;totE+=est;if(dur>0)totD+=dur;if(st==="over")anyOver=true;
+    var n=list.children[i],g=tl.children[i];
+    n.className="block "+st;
+    n.querySelector(".cnt").textContent=w+" palabras · ~"+fmt(est)+" s de "+Math.max(0,dur)+" s";
+    var m=n.querySelector(".msg");
+    if(dur<=0)m.textContent="El fin tiene que ser mayor que el inicio";
+    else if(w===0)m.textContent="Máximo ~"+max+" palabras";
+    else if(st==="over")m.textContent="Te pasaste ~"+fmt(est-dur)+" s · sacá "+Math.max(1,w-max)+" palabras";
+    else if(st==="warn")m.textContent="Justo, te quedan ~"+Math.max(0,max-w)+" palabras";
+    else m.textContent="Entra bien · te quedan ~"+(max-w)+" palabras";
+    var pc=dur>0?Math.min(100,est/dur*100):0;
+    n.querySelector(".bar i").style.width=pc+"%";
+    g.className="seg "+(st==="ok"?"":st);g.style.flex=Math.max(dur,0.5)+" 1 0";
+    g.querySelector("i").style.width=pc+"%";
+    g.querySelector("span").textContent=b.name||"Bloque "+(i+1);
+  });
+  $("total").innerHTML="Total: <b>"+totW+" palabras</b> · ~"+fmt(totE)+" s de "+totD+" s"+(anyOver?" · hay bloques que se pasan":"");
+}
+
+function build(){
+  var p=pace(),title=$("title").value.trim(),out=[],tw=0;
+  if(title)out.push(title.toUpperCase(),"");
+  blocks.forEach(function(b,i){
+    out.push((b.name||"Bloque "+(i+1))+" - "+range(b));
+    out.push(b.text.trim(),"");tw+=words(b.text);
+  });
+  out.push("Total: "+tw+" palabras · ~"+fmt(tw/p)+" s (ritmo "+fmt(p)+" palabras/s)");
+  return out.join("\n")+"\n";
+}
+
+function note(m){var n=$("note");n.textContent=m;clearTimeout(note.t);note.t=setTimeout(function(){n.textContent=""},4000)}
+function fname(){
+  var t=$("title").value.trim()||"guion-tiktok";
+  t=t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"guion-tiktok";
+  return t+".txt";
+}
+function cleanBlocks(a){return a.map(function(b){return{name:String(b.name||""),from:num(b.from),to:num(b.to),text:String(b.text||"")}})}
+function loadDoc(o){
+  curId=o.id||null;
+  blocks=o.blocks&&o.blocks.length?cleanBlocks(o.blocks):defaults();
+  $("title").value=o.title||"";
+  $("pace").value=o.pace||2.5;
+  $("status").value=STATUS[o.status]?o.status:"idea";
+  render();update();persist();
+}
+
+/* ---------- editor ---------- */
+$("add").addEventListener("click",function(){
+  var last=blocks[blocks.length-1],s=last?last.to:0;
+  blocks.push({name:"Nuevo bloque",from:s,to:s+5,text:""});
+  render();update();persist();
+  var inp=list.lastChild.querySelector(".nm");inp.focus();inp.select();
+});
+$("save").addEventListener("click",function(){
+  try{
+    var blob=new Blob([build()],{type:"text/plain;charset=utf-8"});
+    var u=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=u;a.download=fname();document.body.appendChild(a);a.click();
+    setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u)},500);
+    note("Guardado en tu carpeta de descargas.");
+  }catch(e){note("No se pudo guardar. Usá Copiar guion.")}
+});
+$("copy").addEventListener("click",function(){
+  try{navigator.clipboard.writeText(build()).then(function(){note("Guion copiado.")},function(){note("No se pudo copiar.")})}
+  catch(e){note("No se pudo copiar.")}
+});
+var clr=$("clear");
+clr.addEventListener("click",function(){
+  if(!clearArmed){clearArmed=true;clr.textContent="¿Seguro? Tocá de nuevo";setTimeout(function(){clearArmed=false;clr.textContent="Vaciar textos"},3000);return}
+  clearArmed=false;clr.textContent="Vaciar textos";
+  blocks.forEach(function(b){b.text=""});
+  render();update();persist();
+});
+$("fresh").addEventListener("click",function(){
+  if(!confirm("¿Empezar un guion nuevo? Lo que no guardaste en la nube se pierde."))return;
+  loadDoc({});note("Guion nuevo.");
+});
+$("pace").addEventListener("input",function(){update();persist()});
+$("title").addEventListener("input",persist);
+$("status").addEventListener("change",persist);
+
+function persist(){
+  try{localStorage.setItem(KEY,JSON.stringify({id:curId,blocks:blocks,title:$("title").value,pace:$("pace").value,status:$("status").value}))}catch(e){}
+}
+(function restore(){
+  try{
+    var r=localStorage.getItem(KEY),o;
+    if(r){o=JSON.parse(r);curId=o.id||null;
+      if(o.blocks&&o.blocks.length)blocks=cleanBlocks(o.blocks);
+      if(o.title)$("title").value=o.title;
+      if(o.pace)$("pace").value=o.pace;
+      if(STATUS[o.status])$("status").value=o.status;
+    }else{
+      var old=localStorage.getItem("guion-tiktok-v1");
+      if(old){o=JSON.parse(old);
+        if(o.texts&&o.texts.length===blocks.length)blocks.forEach(function(b,i){b.text=o.texts[i]||""});
+        if(o.title)$("title").value=o.title;
+        if(o.pace)$("pace").value=o.pace;}
+    }
+  }catch(e){}
+})();
+
+/* ---------- nube ---------- */
+function show(tab){
+  var ed=tab==="ed";
+  $("viewEd").hidden=!ed;$("viewDa").hidden=ed;
+  $("tabEd").classList.toggle("on",ed);$("tabDa").classList.toggle("on",!ed);
+  if(!ed)refreshDash();
+}
+$("tabEd").addEventListener("click",function(){show("ed")});
+$("tabDa").addEventListener("click",function(){show("da")});
+
+$("cloud").addEventListener("click",function(){
+  if(!sb){note("Falta configurar Supabase: completá la URL y la anon key en el script.");return}
+  if(!user){show("da");return}
+  var btn=$("cloud");btn.disabled=true;
+  var row={user_id:user.id,title:$("title").value.trim()||"Sin título",pace:pace(),status:$("status").value,blocks:blocks,updated_at:new Date().toISOString()};
+  var q=curId?sb.from("guiones").update(row).eq("id",curId).select("id").single():sb.from("guiones").insert(row).select("id").single();
+  q.then(function(r){
+    btn.disabled=false;
+    if(r.error){note("No se pudo guardar: "+r.error.message);return}
+    curId=r.data.id;persist();note("Guardado en la nube.");
+  },function(){btn.disabled=false;note("No se pudo guardar. Revisá tu conexión.")});
+});
+
+function setUser(u){
+  user=u;
+  $("who").hidden=!u;$("email").textContent=u?u.email:"";
+  if(!$("viewDa").hidden)refreshDash();
+}
+if(sb)sb.auth.onAuthStateChange(function(ev,s){setUser(s?s.user:null)});
+
+function authMsg(m,bad){var e=$("authmsg");e.textContent=m;e.style.color=bad?"var(--over)":"var(--ok)"}
+$("auth").addEventListener("submit",function(e){
+  e.preventDefault();
+  if(!sb){authMsg("Falta configurar Supabase en el script.",true);return}
+  sb.auth.signInWithPassword({email:$("aemail").value.trim(),password:$("apass").value}).then(function(r){
+    if(r.error)authMsg("No se pudo entrar: "+r.error.message,true);else authMsg("");
+  });
+});
+$("signup").addEventListener("click",function(){
+  if(!sb){authMsg("Falta configurar Supabase en el script.",true);return}
+  var em=$("aemail").value.trim(),pw=$("apass").value;
+  if(!em||pw.length<6){authMsg("Completá el email y una contraseña de al menos 6 caracteres.",true);return}
+  sb.auth.signUp({email:em,password:pw}).then(function(r){
+    if(r.error)authMsg("No se pudo crear la cuenta: "+r.error.message,true);
+    else if(!r.data.session)authMsg("Cuenta creada. Confirmá tu email y después tocá Entrar.");
+  });
+});
+$("logout").addEventListener("click",function(){sb.auth.signOut()});
+
+function refreshDash(){
+  var logged=!!user;
+  $("auth").hidden=logged;$("dash").hidden=!logged;
+  if(!logged){
+    if(!sb)authMsg("Falta configurar Supabase: completá la URL y la anon key en el script.",true);
+    return;
+  }
+  sb.from("guiones").select("id,title,status,pace,blocks,updated_at").order("updated_at",{ascending:false}).then(function(r){
+    if(r.error){docs=[];renderDash();note("No se pudieron cargar: "+r.error.message);return}
+    docs=r.data||[];renderDash();
+  });
+}
+function stats(d){
+  var w=0;(d.blocks||[]).forEach(function(b){w+=words(b.text)});
+  return{w:w,s:w/(d.pace>0?d.pace:2.5)};
+}
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function renderDash(){
+  var f=$("filters");f.innerHTML="";
+  [["all","Todos"]].concat(Object.keys(STATUS).map(function(k){return[k,STATUS[k]]})).forEach(function(p){
+    var n=p[0]==="all"?docs.length:docs.filter(function(d){return d.status===p[0]}).length;
+    var c=el("button","chip"+(filter===p[0]?" on":""),p[1]+" ("+n+")");
+    c.addEventListener("click",function(){filter=p[0];renderDash()});f.appendChild(c);
+  });
+  var q=$("q").value.trim().toLowerCase(),g=$("grid");g.innerHTML="";
+  var shown=docs.filter(function(d){
+    if(filter!=="all"&&d.status!==filter)return false;
+    if(!q)return true;
+    return (d.title+" "+(d.blocks||[]).map(function(b){return b.text}).join(" ")).toLowerCase().indexOf(q)>-1;
+  });
+  if(!shown.length){
+    var em=el("div","empty");em.style.gridColumn="1/-1";
+    em.appendChild(el("h2",null,docs.length?"No hay guiones con ese filtro":"Todavía no guardaste guiones"));
+    em.appendChild(el("p",null,docs.length?"Probá con otra búsqueda o estado.":"Escribí uno en el editor y tocá Guardar en la nube."));
+    g.appendChild(em);return;
+  }
+  shown.forEach(function(d){
+    var st=stats(d),c=el("article","card "+d.status);
+    c.appendChild(el("h3",null,d.title||"Sin título"));
+    var first="";(d.blocks||[]).some(function(b){if(b.text&&b.text.trim()){first=b.text.trim();return true}});
+    c.appendChild(el("p","pv",first||"Sin texto todavía"));
+    c.appendChild(el("div","mt",st.w+" palabras · ~"+fmt(st.s)+" s · "+new Date(d.updated_at).toLocaleDateString("es-AR",{day:"numeric",month:"short"})));
+    var ct=el("div","ct"),sel=el("select");sel.setAttribute("aria-label","Estado de "+(d.title||"guion"));
+    Object.keys(STATUS).forEach(function(k){var o=el("option",null,STATUS[k]);o.value=k;if(k===d.status)o.selected=true;sel.appendChild(o)});
+    sel.addEventListener("change",function(){
+      sb.from("guiones").update({status:sel.value,updated_at:new Date().toISOString()}).eq("id",d.id).then(function(r){
+        if(r.error)note("No se pudo cambiar el estado.");else{d.status=sel.value;renderDash()}
+      });
+    });
+    var op=el("button","primary","Abrir"),du=el("button",null,"Duplicar"),de=el("button",null,"Eliminar");
+    op.addEventListener("click",function(){loadDoc(d);show("ed");note("Guion abierto.")});
+    du.addEventListener("click",function(){
+      sb.from("guiones").insert({user_id:user.id,title:(d.title||"Sin título")+" (copia)",pace:d.pace,status:"idea",blocks:d.blocks}).then(function(r){
+        if(r.error)note("No se pudo duplicar.");else refreshDash();
+      });
+    });
+    de.addEventListener("click",function(){
+      if(!confirm("¿Eliminar “"+(d.title||"Sin título")+"”? No se puede deshacer."))return;
+      sb.from("guiones").delete().eq("id",d.id).then(function(r){
+        if(r.error){note("No se pudo eliminar.");return}
+        if(curId===d.id){curId=null;persist()}
+        refreshDash();
+      });
+    });
+    [sel,op,du,de].forEach(function(x){ct.appendChild(x)});c.appendChild(ct);g.appendChild(c);
+  });
+}
+$("q").addEventListener("input",renderDash);
+
+render();update();
+</script>
+</body>
+</html>

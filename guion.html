@@ -8,15 +8,15 @@
 <style>
 :root{
   --bg:#EDEFF3;--surface:#FFFFFF;--ink:#171A21;--muted:#5C6473;--line:#D5D9E2;
-  --accent:#2A4BFF;--ok:#14804F;--warn:#A86A00;--over:#C8283A;--track:#E3E6EC;
+  --accent:#2A4BFF;--ok:#14804F;--warn:#A86A00;--over:#C8283A;--track:#E3E6EC;--preg:#F5C518;--des:#14804F;--on-des:#fff;
   --head:"Bricolage Grotesque","DM Sans",system-ui,sans-serif;--body:"DM Sans",system-ui,sans-serif;
   color-scheme:light;
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#13151B;--surface:#1C1F27;--ink:#ECEEF3;--muted:#9AA2B1;--line:#2D323D;--accent:#7C93FF;--ok:#4FCB8E;--warn:#E9B04A;--over:#FF6B7A;--track:#2A2E38;color-scheme:dark}
+  :root:not([data-theme="light"]){--bg:#13151B;--surface:#1C1F27;--ink:#ECEEF3;--muted:#9AA2B1;--line:#2D323D;--accent:#7C93FF;--ok:#4FCB8E;--warn:#E9B04A;--over:#FF6B7A;--track:#2A2E38;--preg:#F2C94C;--des:#4FCB8E;--on-des:#08140E;color-scheme:dark}
 }
-:root[data-theme="dark"]{--bg:#13151B;--surface:#1C1F27;--ink:#ECEEF3;--muted:#9AA2B1;--line:#2D323D;--accent:#7C93FF;--ok:#4FCB8E;--warn:#E9B04A;--over:#FF6B7A;--track:#2A2E38;color-scheme:dark}
+:root[data-theme="dark"]{--bg:#13151B;--surface:#1C1F27;--ink:#ECEEF3;--muted:#9AA2B1;--line:#2D323D;--accent:#7C93FF;--ok:#4FCB8E;--warn:#E9B04A;--over:#FF6B7A;--track:#2A2E38;--preg:#F2C94C;--des:#4FCB8E;--on-des:#08140E;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -62,7 +62,14 @@ button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 :root[data-theme="dark"] button.primary{color:#10131A}
 button:disabled{opacity:.6;cursor:default}
 button:active{transform:translateY(1px)}
-.add{width:100%;border-style:dashed;margin-bottom:18px;color:var(--accent)}
+.adds{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.add{padding:12px 8px;white-space:normal}
+.add.preg{background:var(--preg);border-color:var(--preg);color:#1F1700}
+.add.des{background:var(--des);border-color:var(--des);color:var(--on-des)}
+.block[data-t=pregunta] .nm{background:var(--preg);border-color:var(--preg);color:#1F1700}
+.block[data-t=desarrollo] .nm{background:var(--des);border-color:var(--des);color:var(--on-des)}
+.seg[data-t=pregunta]{box-shadow:inset 0 -4px 0 var(--preg)}
+.seg[data-t=desarrollo]{box-shadow:inset 0 -4px 0 var(--des)}
 .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 #note{font-size:14px;color:var(--muted);min-height:20px;margin-top:10px}
 /* login */
@@ -139,7 +146,7 @@ button.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
       <div id="total"></div>
     </div>
     <div id="blocks"></div>
-    <button class="add" id="add">+ Agregar bloque</button>
+    <div class="adds"><button class="add preg" id="addP">Agregar Pregunta</button><button class="add des" id="addD">Agregar desarrollo</button></div>
     <div class="actions">
       <button class="primary" id="cloud">Guardar en la nube</button>
       <button id="tpbtn">Teleprompter</button>
@@ -198,8 +205,8 @@ var SUPABASE_KEY="sb_publishable__qDdArjSfGDtidHWrLsVng_tVOcUbcb";
 
 var KEY="guion-tiktok-v2";
 var STATUS={idea:"Idea",escrito:"Escrito",grabado:"Grabado",publicado:"Publicado"};
-var DEFAULTS=[["Hook",0,3],["Desarrollo",3,10],["CTA",10,15]];
-function defaults(){return DEFAULTS.map(function(d){return{name:d[0],from:d[1],to:d[2],text:""}})}
+var DEFAULTS=[["Hook",0,3],["Desarrollo",3,10,"desarrollo"],["CTA",10,15]];
+function defaults(){return DEFAULTS.map(function(d){return{name:d[0],from:d[1],to:d[2],text:"",type:d[3]||""}})}
 var blocks=defaults(),clearArmed=false,curId=null,user=null,docs=[],filter="all";
 var sb=null;
 try{if(/^https?:/.test(SUPABASE_URL)&&window.supabase)sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)}catch(e){}
@@ -216,7 +223,7 @@ function num(v){var n=parseInt(v,10);return n>=0?n:0}
 function render(){
   list.innerHTML="";tl.innerHTML="";
   blocks.forEach(function(b,i){
-    var d=document.createElement("section");d.className="block ok";
+    var d=document.createElement("section");d.className="block ok";if(b.type)d.dataset.t=b.type;
     d.innerHTML='<div class="bh"><input type="text" class="nm" maxlength="40" aria-label="Nombre del bloque">'+
       '<div class="tm">de <input type="number" class="f" min="0" step="1" aria-label="Segundo de inicio"> a <input type="number" class="t" min="0" step="1" aria-label="Segundo de fin"> s</div>'+
       '<button class="x" aria-label="Eliminar bloque" title="Eliminar bloque">×</button></div>'+
@@ -235,7 +242,7 @@ function render(){
     var xb=d.querySelector(".x");
     if(xb)xb.addEventListener("click",function(){blocks.splice(i,1);render();update();persist()});
     list.appendChild(d);
-    var g=document.createElement("div");g.className="seg";g.innerHTML="<i></i><span></span>";
+    var g=document.createElement("div");g.className="seg";g.innerHTML="<i></i><span></span>";if(b.type)g.dataset.t=b.type;
     tl.appendChild(g);
   });
 }
@@ -284,13 +291,14 @@ function fname(){
   t=t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"guion-tiktok";
   return t+".txt";
 }
-function cleanBlocks(a){return a.map(function(b){return{name:String(b.name||""),from:num(b.from),to:num(b.to),text:String(b.text||"")}})}
+function typeOf(b){var t=b.type,n=String(b.name||"").trim().toLowerCase();if(t==="pregunta"||t==="desarrollo")return t;return n==="pregunta"||n==="desarrollo"?n:""}
+function cleanBlocks(a){return a.map(function(b){return{name:String(b.name||""),from:num(b.from),to:num(b.to),text:String(b.text||""),type:typeOf(b)}})}
 function fixCta(a){if(a.length<2)return;var c=a[a.length-1],q=a[a.length-2];c.from=q.to;c.to=c.from+5}
 function normalize(a){
   a=cleanBlocks(a);
   if(!a.length||a[0].name.trim().toLowerCase()!=="hook")a.unshift({name:"Hook",from:0,to:3,text:""});
   if(a.length<2||a[a.length-1].name.trim().toLowerCase()!=="cta")a.push({name:"CTA",from:0,to:5,text:""});
-  a[0].name="Hook";a[0].from=0;a[a.length-1].name="CTA";
+  a[0].name="Hook";a[0].from=0;a[0].type="";a[a.length-1].name="CTA";a[a.length-1].type="";
   fixCta(a);return a;
 }
 function loadDoc(o){
@@ -303,12 +311,14 @@ function loadDoc(o){
 }
 
 /* ---------- editor ---------- */
-$("add").addEventListener("click",function(){
+function addBlock(name,secs,type){
   var ci=blocks.length-1,prev=blocks[ci-1],s=prev?prev.to:0;
-  blocks.splice(ci,0,{name:"Nuevo bloque",from:s,to:s+5,text:""});
+  blocks.splice(ci,0,{name:name,from:s,to:s+secs,text:"",type:type});
   render();update();persist();
-  var inp=list.children[ci].querySelector(".nm");inp.focus();inp.select();
-});
+  list.children[ci].querySelector("textarea").focus();
+}
+$("addP").addEventListener("click",function(){addBlock("Pregunta",3,"pregunta")});
+$("addD").addEventListener("click",function(){addBlock("Desarrollo",10,"desarrollo")});
 $("save").addEventListener("click",function(){
   try{
     var blob=new Blob([build()],{type:"text/plain;charset=utf-8"});

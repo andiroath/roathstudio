@@ -180,7 +180,7 @@ button.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
       <button id="tpx" style="margin-left:auto">Cerrar</button>
     </div>
     <div class="r">
-      <label id="lsp">Velocidad <input type="range" id="spd" min="10" max="200" step="5"></label>
+      <label id="lsp">Ajuste <input type="range" id="spd" min="50" max="150" step="5"> <span id="spv"></span></label>
       <label>Tamaño <input type="range" id="siz" min="24" max="96" step="2"></label>
       <label>Ancho <input type="range" id="wid" min="40" max="100" step="5"></label>
       <label><input type="checkbox" id="mir"> Espejo</label>
@@ -473,18 +473,18 @@ function renderDash(){
 $("q").addEventListener("input",renderDash);
 
 /* ---------- teleprompter ---------- */
-var tpp={mode:"auto",spd:60,siz:44,wid:70,mir:false},tpOn=false,tpRaf=0,tpPos=0,tpLast=0,tpWL=null;
+var tpp={mode:"auto",adj:100,siz:44,wid:70,mir:false},tpV=0,tpOn=false,tpRaf=0,tpPos=0,tpLast=0,tpWL=null;
 try{var tsv=JSON.parse(localStorage.getItem("guion-tiktok-tp")||"{}");for(var tk in tsv)if(tk in tpp)tpp[tk]=tsv[tk]}catch(e){}
 function tpSave(){try{localStorage.setItem("guion-tiktok-tp",JSON.stringify(tpp))}catch(e){}}
 function tpApply(){
   var o=$("tp"),auto=tpp.mode==="auto";
   o.style.setProperty("--tps",tpp.siz+"px");o.style.setProperty("--tpw",tpp.wid+"%");
   o.classList.toggle("mir",!!tpp.mir);
-  $("spd").value=tpp.spd;$("siz").value=tpp.siz;$("wid").value=tpp.wid;$("mir").checked=!!tpp.mir;
+  $("spd").value=tpp.adj;$("spv").textContent=fmt(pace()*tpp.adj/100)+" pal/s";$("siz").value=tpp.siz;$("wid").value=tpp.wid;$("mir").checked=!!tpp.mir;
   $("mAuto").classList.toggle("on",auto);$("mFix").classList.toggle("on",!auto);
   $("play").hidden=!auto;$("lsp").hidden=!auto;
   if(!auto)tpStop();
-  if(!o.hidden)tpMark();
+  if(!o.hidden){tpMark();tpV=tpSpeed()}
 }
 var tpS=[],tpMk=0;
 function tpSplit(t){
@@ -534,13 +534,20 @@ function tpStep(t){
   if(!tpOn)return;
   var v=$("tpv"),dt=Math.min(0.1,(t-tpLast)/1000);tpLast=t;
   if(Math.abs(v.scrollTop-tpPos)>2)tpPos=v.scrollTop;
-  tpPos+=tpp.spd*dt;v.scrollTop=tpPos;
+  tpPos+=tpV*dt;v.scrollTop=tpPos;
   if(v.scrollTop+v.clientHeight>=v.scrollHeight-2){tpStop();return}
   tpRaf=requestAnimationFrame(tpStep);
 }
+function tpSpeed(){
+  var ks=$("tpc").children,w=0;
+  blocks.forEach(function(b){w+=words(b.text)});
+  if(!ks.length||!w)return 0;
+  var f=ks[0],l=ks[ks.length-1];
+  return pace()*(tpp.adj/100)*(l.offsetTop+l.offsetHeight-f.offsetTop)/w;
+}
 function tpStart(){
   if(tpOn)return;
-  tpOn=true;tpPos=$("tpv").scrollTop;tpLast=performance.now();
+  tpOn=true;tpV=tpSpeed();tpPos=$("tpv").scrollTop;tpLast=performance.now();
   $("play").textContent="⏸ Pausar";$("play").classList.add("on");
   tpRaf=requestAnimationFrame(tpStep);
 }
@@ -566,7 +573,7 @@ $("play").addEventListener("click",function(){if(tpOn)tpStop();else tpStart()});
 $("prev").addEventListener("click",function(){tpGo(-1)});
 $("next").addEventListener("click",function(){tpGo(1)});
 $("top").addEventListener("click",function(){tpStop();$("tpv").scrollTop=0;tpPos=0});
-["spd","siz","wid"].forEach(function(k){$(k).addEventListener("input",function(){tpp[k]=parseFloat(this.value);tpSave();tpApply()})});
+[["spd","adj"],["siz","siz"],["wid","wid"]].forEach(function(q){$(q[0]).addEventListener("input",function(){tpp[q[1]]=parseFloat(this.value);tpSave();tpApply()})});
 $("mir").addEventListener("change",function(){tpp.mir=this.checked;tpSave();tpApply()});
 $("hide").addEventListener("click",function(){$("tp").classList.add("hc")});
 $("tpshow").addEventListener("click",function(){$("tp").classList.remove("hc")});

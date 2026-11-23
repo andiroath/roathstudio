@@ -103,6 +103,7 @@ button.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 #tp.hc #tpb{display:none}
 #tpshow{position:absolute;right:10px;top:calc(10px + env(safe-area-inset-top,0px));display:none;opacity:.45;background:#22262E;color:#F2F2F2;border-color:#343A46;padding:6px 10px;font-size:13px}
 #tp.hc #tpshow{display:block}
+#tpback{position:absolute;left:10px;top:calc(10px + env(safe-area-inset-top,0px));z-index:2;background:rgba(34,38,46,.9);color:#F2F2F2;border-color:#343A46;padding:8px 14px;font-size:14px}
 @media (max-width:480px){#tpb button{padding:8px 10px;font-size:14px}#tpb input[type=range]{width:90px}}
 </style>
 </head>
@@ -166,6 +167,7 @@ button.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 </main>
 <div id="tp" hidden role="dialog" aria-label="Teleprompter">
   <div id="tpv"><div id="tpc"></div></div>
+  <button id="tpback" aria-label="Volver al editor">← Volver</button>
   <button id="tpshow">Controles</button>
   <div id="tpb">
     <div class="r">
@@ -527,6 +529,7 @@ function tpGo(d){
 }
 $("tpbtn").addEventListener("click",tpOpen);
 $("tpx").addEventListener("click",tpClose);
+$("tpback").addEventListener("click",tpClose);
 $("mAuto").addEventListener("click",function(){tpp.mode="auto";tpSave();tpApply()});
 $("mFix").addEventListener("click",function(){tpp.mode="fix";tpSave();tpApply()});
 $("play").addEventListener("click",function(){if(tpOn)tpStop();else tpStart()});
